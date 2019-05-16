@@ -25,35 +25,29 @@ fetch(TRAINERS_URL)
     })
     object.forEach(function (trainer, trainer_index) {
       const addButton = document.querySelector(`#b${trainer_index}`)
-        addButton.addEventListener("click", function() {
-        trainer.pokemons
+      addButton.addEventListener("click", function() {
+        addPokemon();
       })
     })
-    // .then(addEventListener())
   });
 
 
+let configObj = {
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  method: "POST",
+  body: JSON.stringify({
+    "trainer_id": 1
+  })
+};
 
-  function addButtonEventListener() {
-    const addButton = document.querySelector("#b1")
-      addButton.addEventListener("click", function() {
-      console.log("Hi")
-    })
-  }
-
-// const cards = document.querySelectorAll(".card")
-//   cards.forEach(function (card) {
-//   const button = document.querySelector("#0")
-//   button.addEventListener("click", function() {
-//     console.log("Hi")
-//   })
-// })
-
-
-// fetch(POKEMONS_URL)
-//   .then(function(response) {
-//     return response.json();
-//   })
-//   .then(function(object) {
-//     console.log(object)
-//   })
+function addPokemon() {
+  fetch(POKEMONS_URL, configObj)
+  .then(function(response) {
+    return response.json();
+  })
+  .then(function(object) {
+    console.log(object)
+  })
+}
