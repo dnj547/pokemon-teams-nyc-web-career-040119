@@ -11,43 +11,43 @@ fetch(TRAINERS_URL)
     object.forEach(function (trainer, trainer_index) {
       main.innerHTML += `
       <div class="card" data-id="${trainer_index}"><p>${trainer.name}</p>
-      <button id ="b${trainer_index}" data-trainer-id="${trainer_index}">Add Pokemon</button>
+      <button id="b${trainer_index}" data-trainer-id="${trainer_index}">Add Pokemon</button>
       <ul id="ul${trainer_index}">
       </ul>
       </div>`
       trainer.pokemons.forEach(function (pokemon, poke_index) {
         const ul = document.querySelector(`#ul${trainer_index}`)
         ul.innerHTML += `
-        <li>${pokemon.nickname} (${pokemon.species}) <button class="release" data-pokemon-id="${poke_index}">Release</button></li></li>
+        <li>${pokemon.nickname} (${pokemon.species}) <button class="release" data-pokemon-id="${poke_index}">Release</button></li>
         `
       })
-
     })
     object.forEach(function (trainer, trainer_index) {
       const addButton = document.querySelector(`#b${trainer_index}`)
       addButton.addEventListener("click", function() {
-        addPokemon();
+        addPokemon(trainer_index);
       })
     })
   });
 
-
-let configObj = {
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  method: "POST",
-  body: JSON.stringify({
-    "trainer_id": 1
+function addPokemon(trainer_index) {
+  fetch(POKEMONS_URL, {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: "POST",
+    body: JSON.stringify({
+      "trainer_id": 1
+    })
   })
-};
-
-function addPokemon() {
-  fetch(POKEMONS_URL, configObj)
   .then(function(response) {
     return response.json();
   })
-  .then(function(object) {
-    console.log(object)
+  .then(function(pokemon) {
+    console.log(pokemon)
+    const ul = document.querySelector(`#ul${trainer_index}`)
+    ul.innerHTML += `
+    <li>${pokemon.nickname} (${pokemon.species}) <button class="release" data-pokemon-id="${pokemon.id}">Release</button></li>
+    `
   })
 }
