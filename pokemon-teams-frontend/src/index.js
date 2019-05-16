@@ -7,9 +7,33 @@ fetch(TRAINERS_URL)
     return response.json();
   })
   .then(function(object) {
-    console.log(object[0].name)
     const main = document.querySelector("#main")
-    main.innerHTML += `
-    <div class="card" data-id="1"><p>${object[0].name}</p></div>`
-  })
+    object.forEach(function (trainer, trainer_index) {
+      main.innerHTML += `
+      <div class="card" data-id="${trainer_index}"><p>${trainer.name}</p>
+      <button data-trainer-id="${trainer_index}">Add Pokemon</button>
+      <ul id="ul${trainer_index}">
+      </ul>
+      </div>`
+      trainer.pokemons.forEach(function (pokemon, poke_index) {
+        const ul = document.querySelector(`#ul${trainer_index}`)
+        ul.innerHTML += `
+        <li>${pokemon.nickname}</li>
+        `
+      })
+
+
+    })
+
+  });
+
 div1 = document.createElement("div")
+
+
+// fetch(POKEMONS_URL)
+//   .then(function(response) {
+//     return response.json();
+//   })
+//   .then(function(object) {
+//     console.log(object)
+//   })
